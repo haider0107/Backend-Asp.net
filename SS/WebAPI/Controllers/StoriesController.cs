@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BOL;
 using DAL;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class StoriesController : ControllerBase
@@ -99,6 +103,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT: api/approveStory/5
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPut("approveStory/{id}")]
         public async Task<IActionResult> ApproveStory(int id, Story story)
         {
@@ -142,6 +147,7 @@ namespace WebAPI.Controllers
                 }
                 if (ModelState.IsValid)
                 {
+                    story.Id = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     story.CreatedOn = DateTime.Now;
                     story.IsApproved = false;
                     _context.Stories.Add(story);

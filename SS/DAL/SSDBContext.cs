@@ -13,5 +13,6 @@ namespace DAL
         }
         // data source=LAPTOP-QG8P7KSH\SQLEXPRESS;initial catalog=master;trusted_connection=true
         public DbSet<Story>? Stories { get; set; }
+        public DbSet<Category>? Categories { get; set; }
     }
 }

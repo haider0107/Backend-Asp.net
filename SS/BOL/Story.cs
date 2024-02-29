@@ -25,5 +25,9 @@ namespace BOL
         [ForeignKey("SSUserNav")]
         public string? Id { get; set; }
         public SSUser? SSUserNav { get; set; }
+
+        [ForeignKey("CategoryNav")]
+        public int? CategoryId { get; set; }
+        public Category? CategoryNav { get; set; }
     }
 }
